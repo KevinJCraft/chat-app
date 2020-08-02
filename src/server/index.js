@@ -1,6 +1,7 @@
 const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const shortid = require("shortid");
 const {
   userJoin,
   getCurrentUser,
@@ -17,6 +18,8 @@ io.on("connection", (socket) => {
       ...message,
       type: "notification",
       users: getUserList(),
+      messageId: shortid(),
+      reactions: [],
     });
   });
   socket.on("disconnect", (message) => {
@@ -28,11 +31,22 @@ io.on("connection", (socket) => {
         message: "has left the chat...",
         type: "notification",
         users: getUserList(),
+        messageId: shortid(),
+        reactions: [],
       });
     }
   });
   socket.on("message", (message) => {
-    io.emit("message", { ...message, type: "message", users: getUserList() });
+    io.emit("message", {
+      ...message,
+      messageId: shortid(),
+      reactions: [],
+      type: "message",
+      users: getUserList(),
+    });
+  });
+  socket.on("addReaction", (message) => {
+    io.emit("addReaction", message);
   });
 });
 

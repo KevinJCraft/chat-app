@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Login from "./Components/Login";
-import ChatBox from "./Components/ChatBox";
+import ChatApp from "./Components/ChatApp";
 
 function App() {
   const [screenName, setScreenName] = useState("");
@@ -13,7 +13,7 @@ function App() {
   return !screenName ? (
     <Login handleLogin={handleLogin} />
   ) : (
-    <ChatBox screenName={screenName} />
+    <ChatApp screenName={screenName} />
   );
 }
 
