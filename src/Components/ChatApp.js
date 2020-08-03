@@ -19,12 +19,17 @@ function ChatApp({ screenName }) {
 
   useEffect(() => {
     socket.on("message", (message) => {
-      console.log(message);
+      setChat([...chat, message]);
+    });
+    socket.on("newUser", (message) => {
+      setChat([...chat, message]);
+      setUsers(message.users);
+    });
+    socket.on("userLeft", (message) => {
       setChat([...chat, message]);
       setUsers(message.users);
     });
     socket.on("addReaction", (newReaction) => {
-      console.log(newReaction);
       const newChat = chat.map((message) => {
         if (newReaction.messageId === message.messageId) {
           message.reactions.push(newReaction.emoji);
@@ -33,8 +38,17 @@ function ChatApp({ screenName }) {
       });
       setChat(newChat);
     });
+    socket.on("isTypingNotification", (data) => {
+      const newUsers = users.map((user) => {
+        if (user.id === data.id) {
+          user.isTyping = data.isTyping;
+        }
+        return user;
+      });
+      setUsers(newUsers);
+    });
     return () => socket.off();
-  }, [chat]);
+  }, [chat, users]);
 
   return (
     <div className="App">

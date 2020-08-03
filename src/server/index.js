@@ -14,7 +14,7 @@ const PORT = process.env.REACT_APP_PORT || 4000;
 io.on("connection", (socket) => {
   socket.on("user-sign-in", (message) => {
     userJoin(socket.id, message.screenName);
-    io.emit("message", {
+    io.emit("newUser", {
       ...message,
       type: "notification",
       users: getUserList(),
@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
     const user = getCurrentUser(socket.id);
     userLeave(socket.id);
     if (user) {
-      io.emit("message", {
+      io.emit("userLeft", {
         screenName: user.screenName,
         message: "has left the chat...",
         type: "notification",
@@ -47,6 +47,9 @@ io.on("connection", (socket) => {
   });
   socket.on("addReaction", (message) => {
     io.emit("addReaction", message);
+  });
+  socket.on("isTypingNotification", (data) => {
+    io.emit("isTypingNotification", { ...data, id: socket.id });
   });
 });
 

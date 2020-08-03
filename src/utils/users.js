@@ -1,7 +1,7 @@
 const users = [];
 
 const userJoin = (id, screenName) => {
-  const user = { id, screenName };
+  const user = { id, screenName, isTyping: false };
 
   users.push(user);
 };
@@ -19,8 +19,7 @@ const userLeave = (id) => {
 };
 
 const getUserList = () => {
-  const screenNameList = users.map((user) => user.screenName);
-  return screenNameList;
+  return users;
 };
 
 module.exports = { userJoin, getCurrentUser, userLeave, getUserList };

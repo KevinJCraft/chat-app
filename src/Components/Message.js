@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const emojis = ["X", "Y", "Z", "L"];
+const emojis = ["👍", "👎", "😊", "🥺", "😉", "😍", "😜", "😂", "😢"];
 
 const Message = ({
   reactions,
