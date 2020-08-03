@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import MessageEditor from "./MessageEditor";
 
 const emojis = ["👍", "👎", "😊", "🥺", "😉", "😍", "😜", "😂", "😢"];
 
@@ -9,8 +10,11 @@ const Message = ({
   screenName,
   type,
   socket,
+  editTime,
+  postTime,
 }) => {
   const [showEmojis, setShowEmojis] = useState(false);
+  const [isInEditMode, setIsInEditMode] = useState(false);
 
   const handleSetReaction = (emoji) => {
     socket.emit("addReaction", {
@@ -19,26 +23,61 @@ const Message = ({
     });
     setShowEmojis(false);
   };
+
+  const handleEdit = () => {
+    setIsInEditMode(!isInEditMode);
+  };
+
+  const renderEmojiPicker = () => {
+    if (showEmojis) {
+      return emojis.map((emoji, index) => (
+        <span key={index} onClick={() => handleSetReaction(emoji)}>
+          {emoji}
+        </span>
+      ));
+    } else {
+      return <span onClick={() => setShowEmojis(true)}>+</span>;
+    }
+  };
   return (
     <li>
       <div>
-        {screenName}: {message}
+        {screenName}:{" "}
+        {isInEditMode ? (
+          <MessageEditor
+            socket={socket}
+            messageId={messageId}
+            setIsInEditMode={setIsInEditMode}
+            message={message}
+          />
+        ) : (
+          <>
+            <span>{message}</span>
+            {editTime ? (
+              <div style={{ fontSize: "small" }}>
+                <span>edited on {editTime}</span>
+              </div>
+            ) : (
+              <div style={{ fontSize: "small" }}>
+                <span>posted on {postTime}</span>
+              </div>
+            )}
+          </>
+        )}
+        {type === "ownMessage" && (
+          <div>
+            <button onClick={handleEdit}>
+              {isInEditMode ? "cancel" : "edit"}
+            </button>
+          </div>
+        )}
         <div>
           {reactions.map((reaction, index) => (
             <span key={index}>{reaction}</span>
           ))}
         </div>
       </div>
-
-      {!showEmojis ? (
-        <span onClick={() => setShowEmojis(true)}>+</span>
-      ) : (
-        emojis.map((emoji, index) => (
-          <span key={index} onClick={() => handleSetReaction(emoji)}>
-            {emoji}
-          </span>
-        ))
-      )}
+      {type === "message" && renderEmojiPicker()}
     </li>
   );
 };

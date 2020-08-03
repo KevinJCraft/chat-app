@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
 import UserList from "./UserList";
 import ChatForm from "./ChatForm";
 import ChatBox from "./ChatBox";
 
-const socket = io.connect("http://localhost:4000");
-
-function ChatApp({ screenName }) {
+function ChatApp({ screenName, socket }) {
   const [chat, setChat] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -15,10 +12,13 @@ function ChatApp({ screenName }) {
       screenName,
       message: "has entered the chat",
     });
-  }, [screenName]);
+  }, [screenName, socket]);
 
   useEffect(() => {
     socket.on("message", (message) => {
+      if (message.userId === socket.id) {
+        message.type = "ownMessage";
+      }
       setChat([...chat, message]);
     });
     socket.on("newUser", (message) => {
@@ -47,8 +47,18 @@ function ChatApp({ screenName }) {
       });
       setUsers(newUsers);
     });
+    socket.on("editedMessage", (data) => {
+      const newChat = chat.map((message) => {
+        if (data.messageId === message.messageId) {
+          message.message = data.editedMessage;
+          message.editTime = data.editTime;
+        }
+        return message;
+      });
+      setChat(newChat);
+    });
     return () => socket.off();
-  }, [chat, users]);
+  }, [chat, users, socket]);
 
   return (
     <div className="App">

@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import Login from "./Components/Login";
 import ChatApp from "./Components/ChatApp";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:4000");
 
 function App() {
   const [screenName, setScreenName] = useState("");
 
-  const handleLogin = (e, name) => {
-    e.preventDefault();
+  const handleLogin = (name) => {
     setScreenName(name);
   };
 
   return !screenName ? (
-    <Login handleLogin={handleLogin} />
+    <Login socket={socket} handleLogin={handleLogin} />
   ) : (
-    <ChatApp screenName={screenName} />
+    <ChatApp socket={socket} screenName={screenName} />
   );
 }
 

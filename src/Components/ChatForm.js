@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { EmojiButton } from "@joeattardi/emoji-button";
+import moment from "moment";
 
 const ChatForm = ({ socket, screenName }) => {
   const [message, setMessage] = useState("");
@@ -7,7 +8,13 @@ const ChatForm = ({ socket, screenName }) => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    socket.emit("message", { screenName, message });
+    console.log(
+      socket.emit("message", {
+        screenName,
+        message,
+        postTime: moment().format("ddd, h:mma"),
+      })
+    );
     socket.emit("isTypingNotification", { isTyping: false });
     setIsTyping(false);
 
@@ -23,7 +30,9 @@ const ChatForm = ({ socket, screenName }) => {
         setIsTyping(false);
       }, 7000);
     }
-    setMessage(e.target.value);
+    if (e.target.value.length <= 281) {
+      setMessage(e.target.value);
+    }
   };
 
   const triggerPicker = (e) => {
@@ -41,10 +50,21 @@ const ChatForm = ({ socket, screenName }) => {
 
   return (
     <form>
-      <input value={message} onChange={handleChangeEvent} type="text"></input>
+      <input
+        autoFocus
+        onSubmit={handleMessageSend}
+        value={message}
+        onChange={handleChangeEvent}
+        type="text"
+      ></input>
+      <span onClick={triggerPicker}>😊</span>
 
-      <button onClick={triggerPicker}>😊</button>
-      <button onClick={handleMessageSend}>send</button>
+      <button type="submit" onClick={handleMessageSend}>
+        send
+      </button>
+      <div>
+        <span>{message.length}/281</span>
+      </div>
     </form>
   );
 };

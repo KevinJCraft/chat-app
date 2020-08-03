@@ -14,6 +14,8 @@ const ChatBox = ({ chat, socket }) => {
             socket={socket}
             messageId={data.messageId}
             reactions={data.reactions}
+            editTime={data.editTime}
+            postTime={data.postTime}
           />
         );
       })}

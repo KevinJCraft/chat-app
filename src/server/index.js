@@ -12,6 +12,17 @@ const {
 const PORT = process.env.REACT_APP_PORT || 4000;
 
 io.on("connection", (socket) => {
+  socket.on("screenNameCheck", (data) => {
+    const users = getUserList();
+
+    let isAvailable = true;
+    users.forEach((user) => {
+      if (user.screenName === data.screenName) {
+        isAvailable = false;
+      }
+    });
+    io.to(socket.id).emit("screenNameCheck", { isAvailable });
+  });
   socket.on("user-sign-in", (message) => {
     userJoin(socket.id, message.screenName);
     io.emit("newUser", {
@@ -20,6 +31,7 @@ io.on("connection", (socket) => {
       users: getUserList(),
       messageId: shortid(),
       reactions: [],
+      editTime: "",
     });
   });
   socket.on("disconnect", (message) => {
@@ -40,6 +52,7 @@ io.on("connection", (socket) => {
     io.emit("message", {
       ...message,
       messageId: shortid(),
+      userId: socket.id,
       reactions: [],
       type: "message",
       users: getUserList(),
@@ -50,6 +63,9 @@ io.on("connection", (socket) => {
   });
   socket.on("isTypingNotification", (data) => {
     io.emit("isTypingNotification", { ...data, id: socket.id });
+  });
+  socket.on("editedMessage", (data) => {
+    io.emit("editedMessage", data);
   });
 });
 
