@@ -54,12 +54,12 @@ const Message = ({
           <>
             <span>{message}</span>
             {editTime ? (
-              <div style={{ fontSize: "small" }}>
+              <div style={{ fontSize: "smallest" }}>
                 <span>edited on {editTime}</span>
               </div>
             ) : (
               <div style={{ fontSize: "small" }}>
-                <span>posted on {postTime}</span>
+                <span>{postTime}</span>
               </div>
             )}
           </>

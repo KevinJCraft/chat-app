@@ -2,6 +2,7 @@ const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const shortid = require("shortid");
+const moment = require("moment");
 const {
   userJoin,
   getCurrentUser,
@@ -45,6 +46,7 @@ io.on("connection", (socket) => {
         users: getUserList(),
         messageId: shortid(),
         reactions: [],
+        postTime: moment().format("ddd [at] h:mma"),
       });
     }
   });

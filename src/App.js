@@ -3,7 +3,7 @@ import Login from "./Components/Login";
 import ChatApp from "./Components/ChatApp";
 import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:4000");
+const socket = io.connect("192.168.1.118:4000");
 
 function App() {
   const [screenName, setScreenName] = useState("");

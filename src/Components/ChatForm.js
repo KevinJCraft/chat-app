@@ -8,17 +8,16 @@ const ChatForm = ({ socket, screenName }) => {
 
   const handleMessageSend = (e) => {
     e.preventDefault();
-    console.log(
+    if (message.trim().length > 0) {
       socket.emit("message", {
         screenName,
         message,
-        postTime: moment().format("ddd, h:mma"),
-      })
-    );
-    socket.emit("isTypingNotification", { isTyping: false });
-    setIsTyping(false);
-
-    setMessage("");
+        postTime: moment().format("ddd [at] h:mma"),
+      });
+      socket.emit("isTypingNotification", { isTyping: false });
+      setIsTyping(false);
+      setMessage("");
+    }
   };
 
   const handleChangeEvent = (e) => {
@@ -50,6 +49,7 @@ const ChatForm = ({ socket, screenName }) => {
 
   return (
     <form>
+      <span onClick={triggerPicker}>😊</span>
       <input
         autoFocus
         onSubmit={handleMessageSend}
@@ -57,7 +57,6 @@ const ChatForm = ({ socket, screenName }) => {
         onChange={handleChangeEvent}
         type="text"
       ></input>
-      <span onClick={triggerPicker}>😊</span>
 
       <button type="submit" onClick={handleMessageSend}>
         send
