@@ -34,7 +34,6 @@ export const Login = ({ handleLogin, socket }) => {
 
   return (
     <div>
-      {console.log("render")}
       <form onSubmit={handleSubmit}>
         <label>name</label>
         <input value={name.name} onChange={handleChange} type="text"></input>

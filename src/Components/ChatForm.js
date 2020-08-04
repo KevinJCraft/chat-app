@@ -49,7 +49,7 @@ const ChatForm = ({ socket, screenName }) => {
 
   return (
     <form>
-      <span onClick={triggerPicker}>😊</span>
+      <span onClick={triggerPicker}>+</span>
       <input
         autoFocus
         onSubmit={handleMessageSend}

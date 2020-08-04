@@ -7,11 +7,13 @@ const MessageEditor = ({ message, setIsInEditMode, socket, messageId }) => {
   const handleSubmitEdit = (e) => {
     e.preventDefault();
     setIsInEditMode(false);
-    socket.emit("editedMessage", {
-      messageId,
-      editedMessage,
-      editTime: moment().format("ddd, h:mma"),
-    });
+    if (editedMessage !== message) {
+      socket.emit("editedMessage", {
+        messageId,
+        editedMessage,
+        editTime: moment().format("ddd [at] h:mma"),
+      });
+    }
   };
   return (
     <form onSubmit={handleSubmitEdit}>
@@ -19,6 +21,7 @@ const MessageEditor = ({ message, setIsInEditMode, socket, messageId }) => {
         onChange={(e) => setEditMessage(e.target.value)}
         value={editedMessage}
       ></input>
+      <button>accept</button>
     </form>
   );
 };

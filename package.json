@@ -14,6 +14,7 @@
     "npm-run-all": "^4.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-easy-emoji": "^1.4.0",
     "react-scripts": "3.4.1",
     "shortid": "^2.2.15",
     "socketio": "^1.0.0"

@@ -9,6 +9,7 @@ const {
   userLeave,
   getUserList,
 } = require("../utils/users");
+const { getReactionObject } = require("../utils/reactionObject");
 
 const PORT = process.env.REACT_APP_PORT || 4000;
 
@@ -31,7 +32,6 @@ io.on("connection", (socket) => {
       type: "notification",
       users: getUserList(),
       messageId: shortid(),
-      reactions: [],
       editTime: "",
     });
   });
@@ -45,7 +45,6 @@ io.on("connection", (socket) => {
         type: "notification",
         users: getUserList(),
         messageId: shortid(),
-        reactions: [],
         postTime: moment().format("ddd [at] h:mma"),
       });
     }
@@ -55,7 +54,7 @@ io.on("connection", (socket) => {
       ...message,
       messageId: shortid(),
       userId: socket.id,
-      reactions: [],
+      reactions: getReactionObject(),
       type: "message",
       users: getUserList(),
     });

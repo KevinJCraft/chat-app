@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import MessageEditor from "./MessageEditor";
-
-const emojis = ["👍", "👎", "😊", "🥺", "😉", "😍", "😜", "😂", "😢"];
+import emoji from "react-easy-emoji";
 
 const Message = ({
   reactions,
@@ -20,6 +19,7 @@ const Message = ({
     socket.emit("addReaction", {
       messageId,
       emoji,
+      userId: socket.id,
     });
     setShowEmojis(false);
   };
@@ -28,7 +28,12 @@ const Message = ({
     setIsInEditMode(!isInEditMode);
   };
 
+  const getEmojis = () => {
+    return Object.keys(reactions);
+  };
+
   const renderEmojiPicker = () => {
+    const emojis = getEmojis();
     if (showEmojis) {
       return emojis.map((emoji, index) => (
         <span key={index} onClick={() => handleSetReaction(emoji)}>
@@ -38,6 +43,18 @@ const Message = ({
     } else {
       return <span onClick={() => setShowEmojis(true)}>+</span>;
     }
+  };
+  const displayReactions = () => {
+    let string = "";
+    if (type === "message" || type === "ownMessage") {
+      Object.entries(reactions).forEach((arr, index) => {
+        if (arr[1].length > 0) {
+          string += `${arr[0]}x${arr[1].length}`;
+        }
+      });
+    }
+    console.log(emoji(string));
+    return emoji(string);
   };
   return (
     <li>
@@ -71,11 +88,7 @@ const Message = ({
             </button>
           </div>
         )}
-        <div>
-          {reactions.map((reaction, index) => (
-            <span key={index}>{reaction}</span>
-          ))}
-        </div>
+        <div>{displayReactions()}</div>
       </div>
       {type === "message" && renderEmojiPicker()}
     </li>
