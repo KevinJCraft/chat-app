@@ -4,10 +4,10 @@ const ChatHeader = ({ isAudioOn, setIsAudioOn, screenName }) => {
   return (
     <div>
       <h3>Welcome {screenName}</h3>
-      <label for="isAudioOn">Audio</label>
+      <label htmlFor="isAudioOn">Audio</label>
       <input
         checked={isAudioOn}
-        onClick={() => setIsAudioOn(!isAudioOn)}
+        onChange={() => setIsAudioOn(!isAudioOn)}
         type="checkbox"
         id="isAudioOn"
       />

@@ -89,7 +89,7 @@ function ChatApp({ screenName, socket }) {
       setChat(newChat);
     });
     return () => socket.off();
-  }, [chat, users, socket]);
+  }, [chat, users, socket, isAudioOn]);
 
   return (
     <div className="App">
