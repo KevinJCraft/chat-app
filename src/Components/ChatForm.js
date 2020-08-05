@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { EmojiButton } from "@joeattardi/emoji-button";
 import moment from "moment";
+import { checkText } from "smile2emoji";
 
 const ChatForm = ({ socket, screenName }) => {
   const [message, setMessage] = useState("");
@@ -9,9 +9,10 @@ const ChatForm = ({ socket, screenName }) => {
   const handleMessageSend = (e) => {
     e.preventDefault();
     if (message.trim().length > 0) {
+      let emojifiedText = checkText(message);
       socket.emit("message", {
         screenName,
-        message,
+        message: emojifiedText,
         postTime: moment().format("ddd [at] h:mma"),
       });
       socket.emit("isTypingNotification", { isTyping: false });
@@ -34,22 +35,8 @@ const ChatForm = ({ socket, screenName }) => {
     }
   };
 
-  const triggerPicker = (e) => {
-    e.preventDefault();
-    const picker = new EmojiButton({
-      position: "right-start",
-    });
-
-    picker.on("emoji", (selection) => {
-      setMessage(message + selection.emoji);
-    });
-
-    picker.togglePicker(e.target);
-  };
-
   return (
     <form>
-      <span onClick={triggerPicker}>+</span>
       <input
         autoFocus
         onSubmit={handleMessageSend}

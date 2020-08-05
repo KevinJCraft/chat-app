@@ -53,7 +53,6 @@ const Message = ({
         }
       });
     }
-    console.log(emoji(string));
     return emoji(string);
   };
   return (

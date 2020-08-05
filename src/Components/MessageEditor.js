@@ -20,6 +20,7 @@ const MessageEditor = ({ message, setIsInEditMode, socket, messageId }) => {
       <input
         onChange={(e) => setEditMessage(e.target.value)}
         value={editedMessage}
+        autoFocus
       ></input>
       <button>accept</button>
     </form>

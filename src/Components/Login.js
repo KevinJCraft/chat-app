@@ -39,8 +39,10 @@ export const Login = ({ handleLogin, socket }) => {
         <input value={name.name} onChange={handleChange} type="text"></input>
         <button>join chat</button>
         <div>
-          {name.isRightLength && (
+          {name.isRightLength ? (
             <span>{name.isAvailable ? "Available" : "Not Available"}</span>
+          ) : (
+            "Minimum 3 characters"
           )}
         </div>
       </form>
