@@ -3,7 +3,6 @@ import UserList from "./UserList";
 import ChatForm from "./ChatForm";
 import ChatBox from "./ChatBox";
 import moment from "moment";
-import ChatHeader from "./ChatHeader";
 
 const enterChatAudio = new Audio(require("../utils/audio/open_door_1.mp3"));
 const exitChatAudio = new Audio(require("../utils/audio/close_door_1.mp3"));
@@ -15,10 +14,9 @@ const removeReactionAudio = new Audio(
 );
 const editMessageAudio = new Audio(require("../utils/audio/editMessage.mp3"));
 
-function ChatApp({ screenName, socket }) {
+function ChatApp({ screenName, socket, isAudioOn }) {
   const [chat, setChat] = useState([]);
   const [users, setUsers] = useState([]);
-  const [isAudioOn, setIsAudioOn] = useState(true);
 
   useEffect(() => {
     socket.emit("user-sign-in", {
@@ -35,6 +33,7 @@ function ChatApp({ screenName, socket }) {
         message.type = "ownMessage";
         messageAudio = sendMessageAudio;
       }
+      console.log("here", isAudioOn);
       isAudioOn && messageAudio.play();
       setChat([...chat, message]);
     });
@@ -93,11 +92,6 @@ function ChatApp({ screenName, socket }) {
 
   return (
     <div className="App">
-      <ChatHeader
-        isAudioOn={isAudioOn}
-        setIsAudioOn={setIsAudioOn}
-        screenName={screenName}
-      />
       <UserList users={users} />
       <ChatForm socket={socket} screenName={screenName} />
 
