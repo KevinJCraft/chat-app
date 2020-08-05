@@ -11,7 +11,6 @@ const ChatHeader = ({ isAudioOn, setIsAudioOn, screenName }) => {
 
   const handleChangeAudio = (event) => {
     localStorage.setItem("isAudioOn", !isAudioOn);
-    console.log(event.target.value);
     setIsAudioOn(!isAudioOn);
   };
 

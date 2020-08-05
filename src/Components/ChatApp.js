@@ -33,7 +33,6 @@ function ChatApp({ screenName, socket, isAudioOn }) {
         message.type = "ownMessage";
         messageAudio = sendMessageAudio;
       }
-      console.log("here", isAudioOn);
       isAudioOn && messageAudio.play();
       setChat([...chat, message]);
     });

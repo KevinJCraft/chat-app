@@ -17,7 +17,6 @@ function App() {
   };
 
   function getInitialAudio() {
-    console.log(window.localStorage.getItem("isAudioOn"));
     if (window.localStorage.getItem("isAudioOn") === "false") {
       return false;
     } else {
