@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
         type: "notification",
         users: getUserList(),
         messageId: shortid(),
-        postTime: moment().format("ddd [at] h:mma"),
+        postTime: moment().format("h:mma"),
       });
     }
   });

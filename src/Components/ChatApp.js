@@ -22,7 +22,7 @@ function ChatApp({ screenName, socket, isAudioOn }) {
     socket.emit("user-sign-in", {
       screenName,
       message: "has entered the chat",
-      postTime: moment().format("ddd [at] h:mma"),
+      postTime: moment().format("h:mma"),
     });
   }, [screenName, socket]);
 
@@ -90,12 +90,11 @@ function ChatApp({ screenName, socket, isAudioOn }) {
   }, [chat, users, socket, isAudioOn]);
 
   return (
-    <div className="App">
+    <>
       <UserList users={users} />
-      <ChatForm socket={socket} screenName={screenName} />
-
       <ChatBox socket={socket} chat={chat} />
-    </div>
+      <ChatForm socket={socket} screenName={screenName} />
+    </>
   );
 }
 

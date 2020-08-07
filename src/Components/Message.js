@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MessageEditor from "./MessageEditor";
 import emoji from "react-easy-emoji";
+import { Row, Col } from "react-bootstrap";
 
 const Message = ({
   reactions,
@@ -56,9 +57,8 @@ const Message = ({
     return emoji(string);
   };
   return (
-    <li>
-      <div>
-        {screenName}:{" "}
+    <Row className="align-bottom w-90 mxauto my-2">
+      <Col xs={{ span: 10, offset: 1 }} className="bg-primary rounded">
         {isInEditMode ? (
           <MessageEditor
             socket={socket}
@@ -88,9 +88,9 @@ const Message = ({
           </div>
         )}
         <div>{displayReactions()}</div>
-      </div>
-      {type === "message" && renderEmojiPicker()}
-    </li>
+        {screenName}: {type === "message" && renderEmojiPicker()}
+      </Col>
+    </Row>
   );
 };
 

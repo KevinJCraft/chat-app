@@ -3,12 +3,14 @@ import Login from "./Components/Login";
 import ChatApp from "./Components/ChatApp";
 import ChatHeader from "./Components/ChatHeader";
 import io from "socket.io-client";
-import { ThemeContext, themes } from "./Context/ThemeContext";
+import { ThemeContext } from "./Context/ThemeContext";
+
+import { Container } from "react-bootstrap";
 
 const socket = io.connect("localhost:4000");
 
 function App() {
-  const [screenName, setScreenName] = useState("");
+  const [screenName, setScreenName] = useState("Kevin");
   const [isDarkMode, setIsDarkMode] = useState(getInitialTheme());
   const [isAudioOn, setIsAudioOn] = useState(getInitialAudio());
 
@@ -36,7 +38,10 @@ function App() {
   }
 
   return (
-    <div style={isDarkMode ? themes.dark : themes.light}>
+    <Container
+      style={{ minHeight: "100vh" }}
+      className="d-flex flex-column justify-content-between"
+    >
       <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
         <ChatHeader
           isAudioOn={isAudioOn}
@@ -54,7 +59,7 @@ function App() {
           />
         )}
       </ThemeContext.Provider>
-    </div>
+    </Container>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Container, Form, Button, Row, InputGroup } from "react-bootstrap";
 
 export const Login = ({ handleLogin, socket }) => {
   const [name, setName] = useState({
@@ -20,9 +21,7 @@ export const Login = ({ handleLogin, socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.isAvailable && name.isRightLength) {
-      handleLogin(name.name);
-    }
+    handleLogin(name.name);
   };
 
   useEffect(() => {
@@ -33,20 +32,39 @@ export const Login = ({ handleLogin, socket }) => {
   }, [socket, name]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>name</label>
-        <input value={name.name} onChange={handleChange} type="text"></input>
-        <button>join chat</button>
-        <div>
-          {name.isRightLength ? (
-            <span>{name.isAvailable ? "Available" : "Not Available"}</span>
-          ) : (
-            "Minimum 3 characters"
+    <Container className="px-5 flex-grow-1 d-flex flex-column justify-content-around ">
+      <div>
+        <Row className="align-items-center">
+          <Form className="flex-fill" onSubmit={handleSubmit}>
+            <InputGroup>
+              <Form.Control
+                placeholder="enter user name..."
+                value={name.name}
+                onChange={handleChange}
+                type="text"
+                className=""
+              />
+              <InputGroup.Append>
+                <Button
+                  active={name.isRightLength && name.isAvailable}
+                  type="submit"
+                  className="btn"
+                >
+                  join
+                </Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </Form>
+        </Row>
+        <Row style={{ minHeight: "2rem" }}>
+          {name.isRightLength && (
+            <Form.Text className="ml-3">
+              {name.isAvailable ? "Available" : "Not Available"}
+            </Form.Text>
           )}
-        </div>
-      </form>
-    </div>
+        </Row>
+      </div>
+    </Container>
   );
 };
 
