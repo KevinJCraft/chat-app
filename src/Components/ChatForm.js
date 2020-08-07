@@ -9,9 +9,10 @@ import {
   InputGroup,
   FormControl,
   Button,
+  Col,
 } from "react-bootstrap";
 
-const ChatForm = ({ socket, screenName }) => {
+const ChatForm = ({ users, socket, screenName }) => {
   const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -44,25 +45,48 @@ const ChatForm = ({ socket, screenName }) => {
     }
   };
 
+  const getIsTypingMessage = () => {
+    let typingUsers = users.reduce((allTypingUsers, user) => {
+      if (user.isTyping === true) {
+        allTypingUsers.push(user.screenName);
+      }
+      return allTypingUsers;
+    }, []);
+    if (typingUsers.length === 1) {
+      return `${typingUsers[0]} is typing...`;
+    } else if (typingUsers.length === 2) {
+      return `${typingUsers[0]} and ${typingUsers[1]} are typing...`;
+    } else if (typingUsers.length > 2) {
+      return "multiple people are typing...";
+    } else {
+      return "";
+    }
+  };
+
   return (
-    <Row className="flex-grow-0">
+    <Row className="flex-grow-0 rounded-0">
       <Container>
-        <Row>
-          <span className="ml-2">{message.length}/281</span>
+        <Row className="p-1 bg-primary rounded-0">
+          <Col className="text-white small">
+            {users.length > 0 ? getIsTypingMessage() : ""}
+          </Col>
+          <Col xs={{ span: 2, offset: 10 }} className="small ml-2 text-white">
+            {message.length}/281
+          </Col>
         </Row>
-        <Row>
-          <Form className="flex-fill">
-            <InputGroup>
+        <Row className="rounded-0">
+          <Form className="flex-fill rounded-0">
+            <InputGroup className="rounded-0">
               <FormControl
-                autoFocus
                 onSubmit={handleMessageSend}
                 value={message}
                 onChange={handleChangeEvent}
                 type="text"
+                className="rounded-0"
               ></FormControl>
               <InputGroup.Append>
                 <Button
-                  className="px-4"
+                  className="px-4 py-1 bg-info rounded-0"
                   type="submit"
                   onClick={handleMessageSend}
                 >

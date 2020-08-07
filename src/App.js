@@ -7,12 +7,13 @@ import { ThemeContext } from "./Context/ThemeContext";
 
 import { Container } from "react-bootstrap";
 
-const socket = io.connect("localhost:4000");
+const socket = io.connect("192.168.1.118:4000");
 
 function App() {
-  const [screenName, setScreenName] = useState("Kevin");
+  const [screenName, setScreenName] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(getInitialTheme());
   const [isAudioOn, setIsAudioOn] = useState(getInitialAudio());
+  const [users, setUsers] = useState([]);
 
   const handleLogin = (name) => {
     setScreenName(name);
@@ -47,6 +48,7 @@ function App() {
           isAudioOn={isAudioOn}
           setIsAudioOn={setIsAudioOn}
           screenName={screenName}
+          users={users}
         />
 
         {!screenName ? (
@@ -56,6 +58,8 @@ function App() {
             isAudioOn={isAudioOn}
             socket={socket}
             screenName={screenName}
+            users={users}
+            setUsers={setUsers}
           />
         )}
       </ThemeContext.Provider>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import UserList from "./UserList";
 import ChatForm from "./ChatForm";
 import ChatBox from "./ChatBox";
 import moment from "moment";
@@ -14,9 +13,8 @@ const removeReactionAudio = new Audio(
 );
 const editMessageAudio = new Audio(require("../utils/audio/editMessage.mp3"));
 
-function ChatApp({ screenName, socket, isAudioOn }) {
+function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
   const [chat, setChat] = useState([]);
-  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     socket.emit("user-sign-in", {
@@ -87,13 +85,12 @@ function ChatApp({ screenName, socket, isAudioOn }) {
       setChat(newChat);
     });
     return () => socket.off();
-  }, [chat, users, socket, isAudioOn]);
+  }, [chat, users, socket, isAudioOn, setUsers]);
 
   return (
     <>
-      <UserList users={users} />
       <ChatBox socket={socket} chat={chat} />
-      <ChatForm socket={socket} screenName={screenName} />
+      <ChatForm users={users} socket={socket} screenName={screenName} />
     </>
   );
 }

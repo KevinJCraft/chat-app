@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import MessageEditor from "./MessageEditor";
 import emoji from "react-easy-emoji";
 import { Row, Col } from "react-bootstrap";
 
@@ -58,37 +57,14 @@ const Message = ({
   };
   return (
     <Row className="align-bottom w-90 mxauto my-2">
-      <Col xs={{ span: 10, offset: 1 }} className="bg-primary rounded">
-        {isInEditMode ? (
-          <MessageEditor
-            socket={socket}
-            messageId={messageId}
-            setIsInEditMode={setIsInEditMode}
-            message={message}
-          />
-        ) : (
-          <>
-            <span>{message}</span>
-            {editTime ? (
-              <div style={{ fontSize: "smallest" }}>
-                <span>edited on {editTime}</span>
-              </div>
-            ) : (
-              <div style={{ fontSize: "small" }}>
-                <span>{postTime}</span>
-              </div>
-            )}
-          </>
-        )}
-        {type === "ownMessage" && (
-          <div>
-            <button onClick={handleEdit}>
-              {isInEditMode ? "cancel" : "edit"}
-            </button>
-          </div>
-        )}
-        <div>{displayReactions()}</div>
-        {screenName}: {type === "message" && renderEmojiPicker()}
+      <Col
+        xs={{ span: 10, offset: 1 }}
+        className="text-white bg-primary rounded p-2"
+      >
+        <div className="font-weight-bold font">{message}</div>
+        <div className="small text-right">
+          {screenName} {editTime || postTime}
+        </div>
       </Col>
     </Row>
   );

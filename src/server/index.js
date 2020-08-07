@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
     if (user) {
       io.emit("userLeft", {
         screenName: user.screenName,
-        message: "has left the chat...",
+        message: "has left the chat",
         type: "notification",
         users: getUserList(),
         messageId: shortid(),
