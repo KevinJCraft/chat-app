@@ -21,7 +21,9 @@ export const Login = ({ handleLogin, socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(name.name);
+    if (name.isAvailable) {
+      handleLogin(name.name);
+    }
   };
 
   useEffect(() => {

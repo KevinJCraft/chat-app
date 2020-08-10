@@ -65,7 +65,10 @@ const ChatForm = ({ users, socket, screenName }) => {
   };
 
   return (
-    <Row className="px-2 flex-grow-0 rounded-0 bg-primary">
+    <Row
+      style={{ height: "65px" }}
+      className="px-2 flex-grow-0 rounded-0 bg-primary"
+    >
       <Container className="bg-primary">
         <Row className="rounded-0">
           <Form className="flex-fill rounded-0 border-0">

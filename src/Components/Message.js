@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import emoji from "react-easy-emoji";
-import { Row, Col } from "react-bootstrap";
-
+import {
+  Row,
+  Col,
+  Popover,
+  OverlayTrigger,
+  Button,
+  Badge,
+} from "react-bootstrap";
+import { PlusIcon } from "@primer/octicons-react";
 const Message = ({
   reactions,
   messageId,
@@ -33,27 +40,58 @@ const Message = ({
   };
 
   const renderEmojiPicker = () => {
-    const emojis = getEmojis();
-    if (showEmojis) {
-      return emojis.map((emoji, index) => (
-        <span key={index} onClick={() => handleSetReaction(emoji)}>
-          {emoji}
-        </span>
-      ));
-    } else {
-      return <span onClick={() => setShowEmojis(true)}>+</span>;
-    }
+    return (
+      <OverlayTrigger
+        show={showEmojis}
+        placement="right"
+        overlay={
+          <Popover id={`popover-positioned-right`}>
+            <Popover.Content>
+              {getEmojis().map((emoji, index) => (
+                <span
+                  style={{ fontSize: "20px" }}
+                  className="mr-1"
+                  key={index}
+                  onClick={() => handleSetReaction(emoji)}
+                >
+                  {emoji}
+                </span>
+              ))}
+            </Popover.Content>
+          </Popover>
+        }
+      >
+        <Button
+          onClick={() => setShowEmojis(!showEmojis)}
+          variant="primary"
+          style={{
+            bottom: "-10px",
+            left: "-10px",
+            height: "20px",
+            width: "20px",
+            fontSize: "8px",
+          }}
+          className="m-0 p-0 rounded-circle position-absolute border border-white"
+        >
+          <PlusIcon size={8} />
+        </Button>
+      </OverlayTrigger>
+    );
   };
   const displayReactions = () => {
-    let string = "";
+    let reactionsArr = [];
     if (type === "message" || type === "ownMessage") {
       Object.entries(reactions).forEach((arr, index) => {
         if (arr[1].length > 0) {
-          string += `${arr[0]}x${arr[1].length}`;
+          reactionsArr.push(
+            <Badge key={index} className="mr-1" pill variant="info">
+              {arr[0]}x{arr[1].length}
+            </Badge>
+          );
         }
       });
     }
-    return emoji(string);
+    return reactionsArr;
   };
   const getMessageSpacing = () => {
     if (type === "ownMessage") {
@@ -64,21 +102,27 @@ const Message = ({
   };
 
   return (
-    <Row className="align-bottom w-90 mxauto my-2">
-      <Col
-        xs={getMessageSpacing()}
-        className="text-white bg-primary rounded p-2"
-      >
-        <div className="text-break text-wrap font-weight-bold">{message}</div>
-        <div
-          style={{ opacity: "0.5" }}
-          className="text-wrap small d-flex justify-content-between"
+    <>
+      <Row className="align-bottom w-90 mxauto my-3">
+        <Col
+          xs={getMessageSpacing()}
+          className="text-white bg-primary rounded p-2 position-relative"
         >
-          <span>{type === "message" && screenName}</span>
-          <span>{editTime || postTime}</span>
-        </div>
-      </Col>
-    </Row>
+          {type !== "ownMessage" && renderEmojiPicker()}
+          <div className="text-break text-wrap font-weight-bold">{message}</div>
+          <Row>
+            <Col>{displayReactions()}</Col>
+          </Row>
+          <div
+            style={{ opacity: "0.5" }}
+            className="text-wrap small d-flex justify-content-between"
+          >
+            <span>{type === "message" ? screenName : "You"}</span>
+            <span>{editTime || postTime}</span>
+          </div>
+        </Col>
+      </Row>
+    </>
   );
 };
 

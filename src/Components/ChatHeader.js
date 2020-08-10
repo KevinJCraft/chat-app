@@ -39,7 +39,10 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
   };
 
   return (
-    <Row className="bg-primary text-white p-3 flex-grow-0">
+    <Row
+      style={{ height: "76px" }}
+      className="bg-primary text-white p-3 flex-grow-0"
+    >
       <Col className="p-0 algin-middle">
         <h3 className=" p-1 m-0 align-middle">CHAT-APP</h3>
       </Col>

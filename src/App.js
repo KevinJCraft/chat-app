@@ -10,7 +10,7 @@ import { Container } from "react-bootstrap";
 const socket = io.connect("localhost:4000");
 
 function App() {
-  const [screenName, setScreenName] = useState("Kevin");
+  const [screenName, setScreenName] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(getInitialTheme());
   const [isAudioOn, setIsAudioOn] = useState(getInitialAudio());
   const [users, setUsers] = useState([]);
