@@ -29,6 +29,7 @@ const ChatForm = ({ users, socket, screenName }) => {
       setIsTyping(false);
       setMessage("");
     }
+    e.currentTarget.blur();
   };
 
   const handleChangeEvent = (e) => {
@@ -64,29 +65,22 @@ const ChatForm = ({ users, socket, screenName }) => {
   };
 
   return (
-    <Row className="flex-grow-0 rounded-0">
-      <Container>
-        <Row className="p-1 bg-primary rounded-0">
-          <Col className="text-white small">
-            {users.length > 0 ? getIsTypingMessage() : ""}
-          </Col>
-          <Col xs={{ span: 2, offset: 10 }} className="small ml-2 text-white">
-            {message.length}/281
-          </Col>
-        </Row>
+    <Row className="px-2 flex-grow-0 rounded-0 bg-primary">
+      <Container className="bg-primary">
         <Row className="rounded-0">
-          <Form className="flex-fill rounded-0">
-            <InputGroup className="rounded-0">
+          <Form className="flex-fill rounded-0 border-0">
+            <InputGroup className="rounded-0 border-0">
               <FormControl
                 onSubmit={handleMessageSend}
                 value={message}
                 onChange={handleChangeEvent}
                 type="text"
-                className="rounded-0"
-              ></FormControl>
+                placeholder="   Send message to ..."
+                className="message-input rounded-0 border-0 bg-primary text-white"
+              />
               <InputGroup.Append>
                 <Button
-                  className="px-4 py-1 bg-info rounded-0"
+                  className="px-4 py-1 bg-primary rounded-0"
                   type="submit"
                   onClick={handleMessageSend}
                 >
@@ -95,6 +89,14 @@ const ChatForm = ({ users, socket, screenName }) => {
               </InputGroup.Append>
             </InputGroup>
           </Form>
+        </Row>
+        <Row className="p-1 bg-primary rounded-0">
+          <Col className="text-white small">
+            {users.length > 0 ? getIsTypingMessage() : ""}
+          </Col>
+          <Col xs={{ span: 2, offset: 10 }} className="small ml-2 text-white">
+            {message.length}/281
+          </Col>
         </Row>
       </Container>
     </Row>

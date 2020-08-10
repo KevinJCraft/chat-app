@@ -55,15 +55,27 @@ const Message = ({
     }
     return emoji(string);
   };
+  const getMessageSpacing = () => {
+    if (type === "ownMessage") {
+      return { span: 8, offset: 3 };
+    } else {
+      return { span: 8, offset: 1 };
+    }
+  };
+
   return (
     <Row className="align-bottom w-90 mxauto my-2">
       <Col
-        xs={{ span: 10, offset: 1 }}
+        xs={getMessageSpacing()}
         className="text-white bg-primary rounded p-2"
       >
-        <div className="font-weight-bold font">{message}</div>
-        <div className="small text-right">
-          {screenName} {editTime || postTime}
+        <div className="text-break text-wrap font-weight-bold">{message}</div>
+        <div
+          style={{ opacity: "0.5" }}
+          className="text-wrap small d-flex justify-content-between"
+        >
+          <span>{type === "message" && screenName}</span>
+          <span>{editTime || postTime}</span>
         </div>
       </Col>
     </Row>

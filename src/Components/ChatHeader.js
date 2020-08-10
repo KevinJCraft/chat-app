@@ -49,7 +49,7 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           type="checkbox"
           id="isAudioOn"
           variant="primary"
-          className="p-2 rounded-circle"
+          className="p-2"
         >
           {isAudioOn ? <UnmuteIcon size={24} /> : <MuteIcon size={24} />}
         </Button>
@@ -58,7 +58,7 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           type="checkbox"
           id="theme"
           variant="primary"
-          className="mx-1 p-2 rounded-circle"
+          className="mx-1 p-2 "
         >
           {isDarkMode ? <MoonIcon size={24} /> : <SunIcon size={24} />}
         </Button>
