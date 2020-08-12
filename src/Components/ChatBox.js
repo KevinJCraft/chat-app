@@ -6,7 +6,7 @@ import Notification from "./Notification";
 const ChatBox = ({ chat, socket }) => {
   return (
     <>
-      <Row className="flex-grow-1 overflow-auto">
+      <Row className="flex-grow-1 overflow-auto white-background">
         <Container style={{ alignSelf: "flex-end" }}>
           {chat.map((data, index) => {
             if (data.type === "notification") {

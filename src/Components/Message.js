@@ -46,7 +46,7 @@ const Message = ({
         placement="right"
         overlay={
           <Popover id={`popover-positioned-right`}>
-            <Popover.Content>
+            <Popover.Content className="white-background">
               {getEmojis().map((emoji, index) => (
                 <span
                   style={{ fontSize: "20px" }}
@@ -63,7 +63,6 @@ const Message = ({
       >
         <Button
           onClick={() => setShowEmojis(!showEmojis)}
-          variant="primary"
           style={{
             bottom: "-10px",
             left: "-10px",
@@ -71,7 +70,7 @@ const Message = ({
             width: "20px",
             fontSize: "8px",
           }}
-          className="m-0 p-0 rounded-circle position-absolute border border-white"
+          className="primary-background m-0 p-0 rounded-circle position-absolute border border-white"
         >
           <PlusIcon size={8} />
         </Button>
@@ -84,7 +83,12 @@ const Message = ({
       Object.entries(reactions).forEach((arr, index) => {
         if (arr[1].length > 0) {
           reactionsArr.push(
-            <Badge key={index} className="mr-1" pill variant="info">
+            <Badge
+              className="secondary-background mr-1"
+              key={index}
+              pill
+              variant="info"
+            >
               {arr[0]}x{arr[1].length}
             </Badge>
           );
@@ -106,7 +110,7 @@ const Message = ({
       <Row className="align-bottom w-90 mxauto my-3">
         <Col
           xs={getMessageSpacing()}
-          className="text-white bg-primary rounded p-2 position-relative"
+          className="text-white primary-background rounded p-2 position-relative"
         >
           {type !== "ownMessage" && renderEmojiPicker()}
           <div className="text-break text-wrap font-weight-bold">{message}</div>

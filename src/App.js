@@ -28,12 +28,16 @@ function App() {
   }
 
   function getInitialTheme() {
-    if (window.localStorage.getItem("isDarkMode") === "true") return true;
-    else if (window.localStorage.getItem("isDarkMode") === "false")
-      return false;
-    //2nd check stored preferentials, only returing value if explicitly defined as true
-    else if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+    if (window.localStorage.getItem("isDarkMode") === "true") {
+      document.documentElement.setAttribute("data-theme", "dark");
       return true;
+    } else if (window.localStorage.getItem("isDarkMode") === "false")
+      return false;
+    //2nd check stored preferentials, only returning value if explicitly defined as true
+    else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      return true;
+    }
     //defaulting to darkMode off
     else return false;
   }
@@ -49,6 +53,8 @@ function App() {
           setIsAudioOn={setIsAudioOn}
           screenName={screenName}
           users={users}
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
         />
 
         {!screenName ? (

@@ -7,6 +7,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  max-width: 600px;
+  margin: auto;
 }
 
 html {
@@ -25,4 +27,26 @@ code {
 .message-input::placeholder {
   color: white;
   opacity: 0.5;
+}
+
+.form-control:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+a.bg-primary:focus,
+a.bg-primary:hover,
+button.bg-primary:focus,
+button.bg-primary:hover {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:active {
+  background-color: #007bff;
+  border-color: #007bff;
 }

@@ -67,9 +67,9 @@ const ChatForm = ({ users, socket, screenName }) => {
   return (
     <Row
       style={{ height: "65px" }}
-      className="px-2 flex-grow-0 rounded-0 bg-primary"
+      className="px-2 flex-grow-0 rounded-0 primary-background"
     >
-      <Container className="bg-primary">
+      <Container className="primary-background">
         <Row className="rounded-0">
           <Form className="flex-fill rounded-0 border-0">
             <InputGroup className="rounded-0 border-0">
@@ -79,11 +79,11 @@ const ChatForm = ({ users, socket, screenName }) => {
                 onChange={handleChangeEvent}
                 type="text"
                 placeholder="   Send message to ..."
-                className="message-input rounded-0 border-0 bg-primary text-white"
+                className="message-input rounded-0 border-0 primary-background text-white"
               />
               <InputGroup.Append>
                 <Button
-                  className="px-4 py-1 bg-primary rounded-0"
+                  className="px-4 py-1 primary-background rounded-0"
                   type="submit"
                   onClick={handleMessageSend}
                 >
@@ -93,7 +93,7 @@ const ChatForm = ({ users, socket, screenName }) => {
             </InputGroup>
           </Form>
         </Row>
-        <Row className="p-1 bg-primary rounded-0">
+        <Row className="p-1 primary-background rounded-0">
           <Col className="text-white small">
             {users.length > 0 ? getIsTypingMessage() : ""}
           </Col>

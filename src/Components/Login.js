@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button, Row, InputGroup } from "react-bootstrap";
+import { Form, Button, Row, InputGroup } from "react-bootstrap";
+import { PersonIcon } from "@primer/octicons-react";
 
 export const Login = ({ handleLogin, socket }) => {
   const [name, setName] = useState({
@@ -21,7 +22,7 @@ export const Login = ({ handleLogin, socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.isAvailable) {
+    if (name.isAvailable && name.isRightLength) {
       handleLogin(name.name);
     }
   };
@@ -34,8 +35,11 @@ export const Login = ({ handleLogin, socket }) => {
   }, [socket, name]);
 
   return (
-    <Container className="px-5 flex-grow-1 d-flex flex-column justify-content-around ">
+    <Row className="white-background px-5 flex-grow-1 d-flex flex-column justify-content-around ">
       <div>
+        <Row className="d-flex justify-content-around mb-4">
+          <PersonIcon className="primary-text" size={200} />
+        </Row>
         <Row className="align-items-center">
           <Form className="flex-fill" onSubmit={handleSubmit}>
             <InputGroup>
@@ -50,7 +54,7 @@ export const Login = ({ handleLogin, socket }) => {
                 <Button
                   active={name.isRightLength && name.isAvailable}
                   type="submit"
-                  className="btn"
+                  className="btn primary-background"
                 >
                   join
                 </Button>
@@ -66,7 +70,7 @@ export const Login = ({ handleLogin, socket }) => {
           )}
         </Row>
       </div>
-    </Container>
+    </Row>
   );
 };
 

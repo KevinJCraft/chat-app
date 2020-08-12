@@ -10,14 +10,26 @@ import {
 } from "@primer/octicons-react";
 import UserListMobile from "./UserListMobile";
 
-const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
-  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+const ChatHeader = ({
+  isDarkMode,
+  setIsDarkMode,
+  users,
+  isAudioOn,
+  setIsAudioOn,
+  screenName,
+}) => {
   const [show, setShow] = useState(false);
   const ref = useRef(null);
 
   const handleChangeTheme = (event) => {
     event.currentTarget.blur();
-    localStorage.setItem("isDarkMode", !isDarkMode);
+    if (isDarkMode) {
+      localStorage.setItem("isDarkMode", false);
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      localStorage.setItem("isDarkMode", true);
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
     setIsDarkMode(!isDarkMode);
   };
 
@@ -40,8 +52,8 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
 
   return (
     <Row
-      style={{ height: "76px" }}
-      className="bg-primary text-white p-3 flex-grow-0"
+      style={{ height: "76px", backgroundColor: "var(--primary-color)" }}
+      className=" text-white p-3 flex-grow-0"
     >
       <Col className="p-0 algin-middle">
         <h3 className=" p-1 m-0 align-middle">CHAT-APP</h3>
@@ -51,8 +63,7 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           onClick={handleChangeAudio}
           type="checkbox"
           id="isAudioOn"
-          variant="primary"
-          className="p-2"
+          className="p-2 primary-background"
         >
           {isAudioOn ? <UnmuteIcon size={24} /> : <MuteIcon size={24} />}
         </Button>
@@ -60,8 +71,7 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           onClick={handleChangeTheme}
           type="checkbox"
           id="theme"
-          variant="primary"
-          className="mx-1 p-2 "
+          className="mx-1 p-2 primary-background"
         >
           {isDarkMode ? <MoonIcon size={24} /> : <SunIcon size={24} />}
         </Button>
@@ -69,6 +79,7 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           ref={ref}
           onBlur={handleCloseUserlist}
           onClick={handleShowUserClick}
+          className="primary-background"
         >
           <PeopleIcon size={24} />
         </Button>
@@ -79,9 +90,15 @@ const ChatHeader = ({ users, isAudioOn, setIsAudioOn, screenName }) => {
           containerPadding={20}
         >
           <Popover id="popover-contained">
-            <Popover.Title as="h3">online</Popover.Title>
-            <Popover.Content>
-              <UserListMobile users={users} />
+            <Popover.Title className="white-background black-text" as="h3">
+              online
+            </Popover.Title>
+            <Popover.Content className="white-background black-text">
+              {users.length > 0 ? (
+                <UserListMobile users={users} />
+              ) : (
+                "log-in and see who's online"
+              )}
             </Popover.Content>
           </Popover>
         </Overlay>
