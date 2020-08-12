@@ -1,17 +1,12 @@
-const app = require("express")();
+const express = require("express");
+const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const shortid = require("shortid");
 const moment = require("moment");
-const {
-  userJoin,
-  getCurrentUser,
-  userLeave,
-  getUserList,
-} = require("../utils/users");
-const { getReactionObject } = require("../utils/reactionObject");
-
-const PORT = process.env.REACT_APP_PORT || 4000;
+const { userJoin, getCurrentUser, userLeave, getUserList } = require("./users");
+const { getReactionObject } = require("./reactionObject");
+const path = require("path");
 
 io.on("connection", (socket) => {
   socket.on("screenNameCheck", (data) => {
@@ -70,6 +65,19 @@ io.on("connection", (socket) => {
   });
 });
 
+const PORT = process.env.PORT || 4000;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+} else {
+  app.get("*", (req, res) => {
+    res.send("listening on port 4000");
+  });
+}
 http.listen(PORT, () => {
   console.log(`listening on port 4000...`);
 });
