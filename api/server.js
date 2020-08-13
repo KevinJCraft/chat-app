@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, { path: "/api/socket.io" });
 const shortid = require("shortid");
 const moment = require("moment");
 const { userJoin, getCurrentUser, userLeave, getUserList } = require("./users");

@@ -7,7 +7,7 @@ import { ThemeContext } from "./Context/ThemeContext";
 
 import { Container } from "react-bootstrap";
 
-const socket = io.connect("localhost:4000");
+const socket = io.connect("/", { path: "/api/socket.io" });
 
 function App() {
   const [screenName, setScreenName] = useState("");
