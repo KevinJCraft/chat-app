@@ -11,10 +11,14 @@ const newReactionAudio = new Audio(require("../utils/audio/reaction.mp3"));
 const removeReactionAudio = new Audio(
   require("../utils/audio/removeReaction.mp3")
 );
-const editMessageAudio = new Audio(require("../utils/audio/editMessage.mp3"));
 
 function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState(getChat());
+
+  function getChat() {
+    let oldChat = JSON.parse(sessionStorage.getItem("chat"));
+    return oldChat || [];
+  }
 
   useEffect(() => {
     socket.emit("user-sign-in", {
@@ -73,19 +77,12 @@ function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
       });
       setUsers(newUsers);
     });
-    socket.on("editedMessage", (data) => {
-      const newChat = chat.map((message) => {
-        if (data.messageId === message.messageId) {
-          message.message = data.editedMessage;
-          message.editTime = data.editTime;
-        }
-        return message;
-      });
-      isAudioOn && editMessageAudio.play();
-      setChat(newChat);
-    });
     return () => socket.off();
   }, [chat, users, socket, isAudioOn, setUsers]);
+
+  useEffect(() => {
+    sessionStorage.setItem("chat", JSON.stringify(chat));
+  }, [chat]);
 
   return (
     <>

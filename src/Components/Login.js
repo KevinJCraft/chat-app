@@ -64,7 +64,7 @@ export const Login = ({ handleLogin, socket }) => {
         </Row>
         <Row style={{ minHeight: "2rem" }}>
           {name.isRightLength && (
-            <Form.Text className="ml-3">
+            <Form.Text className="ml-3 black-text">
               {name.isAvailable ? "Available" : "Not Available"}
             </Form.Text>
           )}

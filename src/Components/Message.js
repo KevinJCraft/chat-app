@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import emoji from "react-easy-emoji";
 import {
   Row,
   Col,
@@ -20,7 +19,6 @@ const Message = ({
   postTime,
 }) => {
   const [showEmojis, setShowEmojis] = useState(false);
-  const [isInEditMode, setIsInEditMode] = useState(false);
 
   const handleSetReaction = (emoji) => {
     socket.emit("addReaction", {
@@ -29,10 +27,6 @@ const Message = ({
       userId: socket.id,
     });
     setShowEmojis(false);
-  };
-
-  const handleEdit = () => {
-    setIsInEditMode(!isInEditMode);
   };
 
   const getEmojis = () => {
@@ -122,7 +116,7 @@ const Message = ({
             className="text-wrap small d-flex justify-content-between"
           >
             <span>{type === "message" ? screenName : "You"}</span>
-            <span>{editTime || postTime}</span>
+            <span>{postTime}</span>
           </div>
         </Col>
       </Row>

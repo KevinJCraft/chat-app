@@ -3,19 +3,23 @@ import Login from "./Components/Login";
 import ChatApp from "./Components/ChatApp";
 import ChatHeader from "./Components/ChatHeader";
 import io from "socket.io-client";
-import { ThemeContext } from "./Context/ThemeContext";
 
 import { Container } from "react-bootstrap";
 
 const socket = io.connect("/", { path: "/api/socket.io" });
 
 function App() {
-  const [screenName, setScreenName] = useState("");
+  const [screenName, setScreenName] = useState(getSavedName());
   const [isDarkMode, setIsDarkMode] = useState(getInitialTheme());
   const [isAudioOn, setIsAudioOn] = useState(getInitialAudio());
   const [users, setUsers] = useState([]);
 
+  function getSavedName() {
+    return sessionStorage.getItem("screenName") || "";
+  }
+
   const handleLogin = (name) => {
+    sessionStorage.setItem("screenName", name);
     setScreenName(name);
   };
 
@@ -47,28 +51,26 @@ function App() {
       style={{ minHeight: "100vh" }}
       className="d-flex flex-column justify-content-between"
     >
-      <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-        <ChatHeader
+      <ChatHeader
+        isAudioOn={isAudioOn}
+        setIsAudioOn={setIsAudioOn}
+        screenName={screenName}
+        users={users}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+      />
+
+      {!screenName ? (
+        <Login socket={socket} handleLogin={handleLogin} />
+      ) : (
+        <ChatApp
           isAudioOn={isAudioOn}
-          setIsAudioOn={setIsAudioOn}
+          socket={socket}
           screenName={screenName}
           users={users}
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
+          setUsers={setUsers}
         />
-
-        {!screenName ? (
-          <Login socket={socket} handleLogin={handleLogin} />
-        ) : (
-          <ChatApp
-            isAudioOn={isAudioOn}
-            socket={socket}
-            screenName={screenName}
-            users={users}
-            setUsers={setUsers}
-          />
-        )}
-      </ThemeContext.Provider>
+      )}
     </Container>
   );
 }

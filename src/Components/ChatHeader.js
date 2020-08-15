@@ -1,5 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
-import { ThemeContext } from "../Context/ThemeContext";
+import React, { useRef, useState } from "react";
 import { Button, Row, Col, Popover, Overlay } from "react-bootstrap";
 import {
   MuteIcon,
@@ -52,8 +51,8 @@ const ChatHeader = ({
 
   return (
     <Row
-      style={{ height: "76px", backgroundColor: "var(--primary-color)" }}
-      className=" text-white p-3 flex-grow-0"
+      style={{ height: "76px" }}
+      className="primary-background text-white p-3 flex-grow-0"
     >
       <Col className="p-0 algin-middle">
         <h3 className=" p-1 m-0 align-middle">CHAT-APP</h3>

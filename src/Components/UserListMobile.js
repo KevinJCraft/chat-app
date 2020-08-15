@@ -5,7 +5,10 @@ const UserListMobile = ({ users }) => {
   return (
     <ListGroup>
       {users.map((user, index) => (
-        <ListGroup.Item className="border-0" key={index}>
+        <ListGroup.Item
+          className="white-background white-text border-0"
+          key={index}
+        >
           {user.screenName}
         </ListGroup.Item>
       ))}
