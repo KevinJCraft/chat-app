@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ChatForm from "./ChatForm";
 import ChatBox from "./ChatBox";
 import moment from "moment";
 
 const enterChatAudio = new Audio(require("../utils/audio/open_door_1.mp3"));
 const exitChatAudio = new Audio(require("../utils/audio/close_door_1.mp3"));
-const sendMessageAudio = new Audio(require("../utils/audio/intuition.mp3"));
-const getMessageAudio = new Audio(require("../utils/audio/when.mp3"));
-const newReactionAudio = new Audio(require("../utils/audio/reaction.mp3"));
+const sendMessageAudio = new Audio(require("../utils/audio/sendMessage.mp3"));
+const getMessageAudio = new Audio(require("../utils/audio/getMessage.mp3"));
+const newReactionAudio = new Audio(require("../utils/audio/addReaction.mp3"));
 const removeReactionAudio = new Audio(
   require("../utils/audio/removeReaction.mp3")
 );
 
 function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
   const [chat, setChat] = useState(getChat());
+
+  const playAudio = useCallback(
+    (audio) => {
+      if (isAudioOn) {
+        audio.play().catch((err) => console.log(err));
+      }
+    },
+    [isAudioOn]
+  );
 
   function getChat() {
     let oldChat = JSON.parse(sessionStorage.getItem("chat"));
@@ -35,18 +44,18 @@ function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
         message.type = "ownMessage";
         messageAudio = sendMessageAudio;
       }
-      isAudioOn && messageAudio.play();
+      playAudio(messageAudio);
       setChat([...chat, message]);
     });
     socket.on("newUser", (message) => {
       setChat([...chat, message]);
       setUsers(message.users);
-      isAudioOn && enterChatAudio.play();
+      playAudio(enterChatAudio);
     });
     socket.on("userLeft", (message) => {
       setChat([...chat, message]);
       setUsers(message.users);
-      isAudioOn && exitChatAudio.play();
+      playAudio(exitChatAudio);
     });
     socket.on("addReaction", (newReaction) => {
       const newChat = chat.map((message) => {
@@ -58,10 +67,10 @@ function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
           );
           if (index === -1) {
             message.reactions[newReaction.emoji].push(newReaction.userId);
-            isAudioOn && newReactionAudio.play();
+            playAudio(newReactionAudio);
           } else {
             message.reactions[newReaction.emoji].splice(index, 1);
-            isAudioOn && removeReactionAudio.play();
+            playAudio(removeReactionAudio);
           }
         }
         return message;
@@ -78,7 +87,7 @@ function ChatApp({ users, setUsers, screenName, socket, isAudioOn }) {
       setUsers(newUsers);
     });
     return () => socket.off();
-  }, [chat, users, socket, isAudioOn, setUsers]);
+  }, [chat, users, socket, isAudioOn, setUsers, playAudio]);
 
   useEffect(() => {
     sessionStorage.setItem("chat", JSON.stringify(chat));

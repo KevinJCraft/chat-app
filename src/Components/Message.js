@@ -15,7 +15,6 @@ const Message = ({
   screenName,
   type,
   socket,
-  editTime,
   postTime,
 }) => {
   const [showEmojis, setShowEmojis] = useState(false);
