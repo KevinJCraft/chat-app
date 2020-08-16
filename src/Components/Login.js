@@ -22,17 +22,21 @@ export const Login = ({ handleLogin, socket }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name.isAvailable && name.isRightLength) {
-      handleLogin(name.name);
-    }
+    socket.emit("loginAttempt", name);
   };
 
   useEffect(() => {
     socket.on("screenNameCheck", (data) => {
       setName({ ...name, isAvailable: data.isAvailable });
     });
+    socket.on("loginSuccess", (user) => {
+      handleLogin(user.name);
+    });
+    socket.on("loginFail", (user) => {
+      setName(user);
+    });
     return () => socket.off();
-  }, [socket, name]);
+  }, [handleLogin, name, socket]);
 
   return (
     <Row className="white-background px-5 flex-grow-1 d-flex flex-column justify-content-around ">

@@ -96,7 +96,7 @@ const ChatHeader = ({
               {users.length > 0 ? (
                 <UserListMobile users={users} />
               ) : (
-                "log-in and see who's online"
+                "noone online"
               )}
             </Popover.Content>
           </Popover>

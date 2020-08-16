@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./Components/Login";
 import ChatApp from "./Components/ChatApp";
 import ChatHeader from "./Components/ChatHeader";
@@ -45,6 +45,16 @@ function App() {
     //defaulting to darkMode off
     else return false;
   }
+
+  useEffect(() => {
+    socket.emit("getUserList");
+    socket.on("getUserList", (res) => {
+      setUsers(res.userList);
+    });
+    return () => {
+      socket.off();
+    };
+  }, []);
 
   return (
     <Container

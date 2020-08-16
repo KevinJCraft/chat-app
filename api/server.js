@@ -20,6 +20,19 @@ io.on("connection", (socket) => {
     });
     io.to(socket.id).emit("screenNameCheck", { isAvailable });
   });
+  socket.on("getUserList", () => {
+    io.to(socket.id).emit("getUserList", { userList: getUserList() });
+  });
+  socket.on("loginAttempt", (login) => {
+    let numOfMatches = getUserList().filter(
+      (user) => user.screenName === login.name
+    ).length;
+    if (numOfMatches === 0) {
+      io.to(socket.id).emit("loginSuccess", login);
+    } else {
+      io.to(socket.id).emit("loginFail", { ...login, isAvailable: false });
+    }
+  });
   socket.on("user-sign-in", (message) => {
     userJoin(socket.id, message.screenName);
     io.emit("newUser", {
