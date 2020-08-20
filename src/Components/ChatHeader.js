@@ -8,11 +8,13 @@ import {
   PeopleIcon,
 } from "@primer/octicons-react";
 import UserListMobile from "./UserListMobile";
+import axios from "axios";
 
 const ChatHeader = ({
   isDarkMode,
   setIsDarkMode,
   users,
+  setUsers,
   isAudioOn,
   setIsAudioOn,
   screenName,
@@ -42,7 +44,10 @@ const ChatHeader = ({
     if (!show === false) {
       event.currentTarget.blur();
     }
-    setShow(!show);
+    axios.get("./getUsers").then((res) => {
+      setUsers(res.data);
+      setShow(!show);
+    });
   };
 
   const handleCloseUserlist = () => {

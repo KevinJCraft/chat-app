@@ -46,16 +46,6 @@ function App() {
     else return false;
   }
 
-  useEffect(() => {
-    socket.emit("getUserList");
-    socket.on("getUserList", (res) => {
-      setUsers(res.userList);
-    });
-    return () => {
-      socket.off();
-    };
-  }, []);
-
   return (
     <Container
       style={{ minHeight: "100vh" }}
@@ -66,6 +56,7 @@ function App() {
         setIsAudioOn={setIsAudioOn}
         screenName={screenName}
         users={users}
+        setUsers={setUsers}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
       />

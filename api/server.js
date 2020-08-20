@@ -80,6 +80,9 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 4000;
 
+app.get("/getUsers", (req, res) => {
+  res.send(getUserList());
+});
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("build"));
 
@@ -91,6 +94,7 @@ if (process.env.NODE_ENV === "production") {
     res.send("listening on port 4000");
   });
 }
+
 http.listen(PORT, () => {
   console.log(`listening on port 4000...`);
 });
