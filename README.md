@@ -3,7 +3,7 @@ git clone https://github.com/KevinJCraft/chat-app.git
 
 npm install
 
-npm start
+npm run dev
 ```
 
 
